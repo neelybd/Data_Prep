@@ -1,5 +1,5 @@
 import pandas as pd
-from tkinter.filedialog import askopenfilename, asksaveasfilename, askopenfilenames
+from tkinter.filedialog import askopenfilename, asksaveasfilename, askopenfilenames, askdirectory
 import os
 from tkinter import Tk
 
@@ -158,6 +158,19 @@ def open_file(file_in, encoder, delimination, header='infer'):
     return data
 
 
+def select_folder():
+    # Hide Tkinter GUI
+    Tk().withdraw()
+
+    folder_in = askdirectory()
+
+    if not folder_in:
+        input("Program Terminated. Press Enter to continue...")
+        exit()
+
+    return folder_in
+
+
 def select_file_in():
     # Hide Tkinter GUI
     Tk().withdraw()
@@ -236,3 +249,12 @@ def select_multiple_files(title, file_type=("All Files", "*.*")):
         return None
     else:
         return files_in
+
+
+def file_exist(folder_loc, file_name):
+    does_file_exist = False
+    for i in os.listdir(folder_loc):
+        if i == file_name:
+            does_file_exist = True
+
+    return does_file_exist
