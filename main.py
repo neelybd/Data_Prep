@@ -26,7 +26,7 @@ files_in = select_multiple_files("Select Data Files", file_types)
 data = list()
 for index, i in enumerate(files_in):
     data.append(open_unknown_csv(i, ','))
-+
+
 # Save files as comma delimited and UTF16
 folder_out = select_folder()
 
