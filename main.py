@@ -5,6 +5,7 @@ from selection import *
 from file_handling import *
 import os
 import io
+import csv
 # *********************************************************************************************************************
 
 
@@ -44,6 +45,9 @@ class File_Encoder(Frame):
     # Function that performs an encoding change on the selected file(s).
     def encode(self):
 
+        # ----- Temp set delimiter
+        delimiter = ','
+
         # Extracting selected files
         files = self.listbox.curselection()
         files = [os.path.join(os.getcwd(), self.listbox.get(f)) for f in files]
@@ -62,6 +66,20 @@ class File_Encoder(Frame):
 
             # Ask for output encoder
             encoder_out = encoding_selection("Select encoding of output file.")
+
+            # Read table and write results to label box.
+            with open(file_in, newline="", encoding=encoder_in) as file:
+                reader = csv.reader(file, delimiter=delimiter)
+                r = 0
+                for col in reader:
+                    if r > 5:
+                        break
+                    c = 0
+                    for row in col:
+                        self.label = Label(text=row)
+                        self.label.grid(row=r + 3, column=c, sticky=SW)
+                        c += 1
+                    r += 1
 
             # Read and write file
             try:
@@ -124,8 +142,8 @@ class File_Encoder(Frame):
                 self.listbox.insert('end', name)
 
         # Data Text
-        self.label = Label(self, relief=RIDGE, background="white", height=6, width=17, text=text)
-        self.label.grid(row=2, pady=5)
+        self.label = Label(root, width=10, height=2, text="", relief=RIDGE)
+        self.label.grid(row=3, column=0, sticky=SW)
 
         # Side Buttons
         self.encode = Button(self, text="Encoding", command=self.encode).grid(column=1, row=0, sticky=N)
