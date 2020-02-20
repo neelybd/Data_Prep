@@ -214,8 +214,7 @@ def select_file_out_csv(file_in):
     file_out = asksaveasfilename(initialdir=file_in, title="Select file",
                                  filetypes=(("Comma Separated Values", "*.csv"), ("all files", "*.*")))
     if not file_out:
-        input("Program Terminated. Press Enter to continue...")
-        exit()
+        raise SystemExit('Unable to output file')
 
     # If file doesn't include .kml, add it
     if file_out[-4:].lower() != ".csv":
